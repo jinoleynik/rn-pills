@@ -1,12 +1,13 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Platform, Icon, Text } from 'react-native';
+import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import MedicationScreen from '../screens/MedicationScreen';
 import MedicationDetailsScreen from '../screens/MedicationDetailsScreen';
 import CalendarScreen from '../screens/CalendarScreen';
+import UserScreen from '../screens/UserScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -75,6 +76,30 @@ const tabNavigator = createBottomTabNavigator({
   CalendarStack,
 });
 
+tabNavigator.navigationOptions =() => ({
+  title: 'Home page'
+});
+
 tabNavigator.path = '';
 
-export default tabNavigator;
+
+const UserStack = createStackNavigator(
+  {
+    User: UserScreen,
+  },
+  config
+);
+
+UserStack.navigationOptions = {
+  drawerLabel: 'User page'
+}
+
+UserStack.path = '';
+
+const drawerNavigator = createDrawerNavigator({
+  HomePage: tabNavigator,
+  UserPage: UserStack
+})
+
+
+export default drawerNavigator;
