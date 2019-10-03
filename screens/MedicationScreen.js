@@ -49,7 +49,6 @@ export default function MedicationScreen({ navigation }) {
       });
     }
     setItems(list);
-    console.log('list', list)
   }, []);
 
   const handleCheck = (item) => {

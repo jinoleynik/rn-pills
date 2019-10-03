@@ -1,19 +1,23 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Card, CardItem,  Container, Content, Text } from 'native-base';
+import { StyleSheet, Linking } from 'react-native';
+import { Card, CardItem, Container, Content, Text } from 'native-base';
 
 export default function MedicationDetailsScreen({ navigation }) {
   const med = navigation.getParam("med");
 
-  
+  const handleOpenLink = () => {
+    Linking.openURL(`https://www.google.com/search?q=${med.name}`)
+  }
+
+
   return <Container>
     <Content style={styles.cardWrap} >
       <Card style={styles.centerWrap} >
-        <CardItem>
+        <CardItem button onPress={handleOpenLink}>
           <Text style={styles.cardText}>{med.name}</Text>
         </CardItem>
         <CardItem>
-          <Text style={styles.cardText}>{med.date}</Text>
+          <Text style={styles.cardDate}>{med.date}</Text>
         </CardItem>
         {med.checked && <CardItem>
           <Text style={styles.cardTextConfirm}>Confirmed!</Text>
@@ -30,7 +34,13 @@ MedicationDetailsScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   cardText: {
+    color: "blue",
+    textTransform: "uppercase",
+    textDecorationLine: "underline",
     fontSize: 24
+  },
+  cardDate: {
+    fontSize: 20
   },
   cardTextConfirm: {
     fontSize: 24,

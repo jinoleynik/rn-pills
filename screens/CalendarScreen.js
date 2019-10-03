@@ -1,27 +1,18 @@
 import React from 'react';
 import { Card, CardItem, Container, Content, Text } from 'native-base';
 import { StyleSheet } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
-export default function SettingsScreen() {
+export default function CalendarScreen() {
   return <Container>
     <Content style={styles.cardWrap} >
-      <Card style={styles.centerWrap} >
-        <CardItem>
-          <Text style={styles.cardText}>{med.name}</Text>
-        </CardItem>
-        <CardItem>
-          <Text style={styles.cardText}>{med.date}</Text>
-        </CardItem>
-        {med.checked && <CardItem>
-          <Text style={styles.cardTextConfirm}>Confirmed!</Text>
-        </CardItem>}
-      </Card>
+      <Calendar />
     </Content>
   </Container>;
 }
 
-SettingsScreen.navigationOptions = {
-  title: 'app.json',
+CalendarScreen.navigationOptions = {
+  title: 'Calendar'
 };
 
 
