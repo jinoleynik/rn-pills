@@ -5,11 +5,24 @@ import {
   View,
 } from 'react-native';
 import { Container, Content, Card, CardItem, Body, Text } from 'native-base';
+import { useSelector, useDispatch } from "react-redux";
+import {actionUpdateUser} from "../redux/user";
 
+ const users = [
+   "Alex", "Vlad", "John", "Petr", "Michael", "Eugene"
+ ]
 
 export default function HomeScreen() {
+  const dispatch = useDispatch();
+  const { userName } = useSelector(state => ({
+    userName: state.user.userName
+  }));
+  
 
-  const userName = "Eugene";
+  const handleClickUser = () => {
+    const newName = users[parseInt(Math.random()*users.length)]
+    dispatch(actionUpdateUser(newName))
+  }
 
   return (
     <Container>
@@ -19,10 +32,10 @@ export default function HomeScreen() {
             source={require('../assets/images/ava1.png')}
             style={styles.welcomeImage} />
           <View style={styles.centerWrap}>
-            <Text style={styles.userText}>Good day, {userName}</Text>
+            <Text onPress={handleClickUser} style={styles.userText}>Good day, {userName}</Text>
           </View>
         </View>
-        
+
         <Card style={styles.cardWrap}>
           <CardItem bordered title>
             <Text>Messages</Text>

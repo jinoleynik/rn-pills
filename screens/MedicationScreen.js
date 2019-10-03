@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-
+import { useSelector, useDispatch } from "react-redux";
+import {actionUpdatePills} from "../redux/pills";
 import { CheckBox, Card, CardItem, Container,  Content,  Text } from 'native-base';
 
 const medications = [
@@ -32,10 +33,13 @@ const medications = [
 const Min15 = 1000 * 60 * 15;
 
 export default function MedicationScreen({ navigation }) {
-
-  const [items, setItems] = useState([]);
+  const dispatch = useDispatch();
+  const {  pills } = useSelector(state => ({
+    pills: state.pills
+  }));
+ 
   useEffect(() => {
-    const count = 5 + parseInt(Math.random() * 20);
+    const count = (5 + parseInt(Math.random() *  medications.length));
     let list = [];
     let date = new Date() 
     for (let i = 0; i < count; i++) {     
@@ -47,15 +51,15 @@ export default function MedicationScreen({ navigation }) {
         checked: false,
         date: hour + ":" + minute 
       });
-    }
-    setItems(list);
+    } 
+    dispatch(actionUpdatePills(list))
   }, []);
 
   const handleCheck = (item) => {
-    const index = items.findIndex(med => med.id === item.id);
+    const index = pills.findIndex(med => med.id === item.id);
     if (index !== -1) {
-      items[index].checked = !items[index].checked;
-      setItems([...items])
+      pills[index].checked = !pills[index].checked;
+      dispatch(actionUpdatePills([...pills]))
     }
   }
 
@@ -63,13 +67,12 @@ export default function MedicationScreen({ navigation }) {
     navigation.navigate('MedicationDetails', { med: item })
   }
 
-
   return (
     <Container>
       <Content style={styles.cardWrap} >
         <Card >
           <CardItem bordered title><Text>Medications</Text></CardItem>
-          {items.map((item, index) => {
+          {pills.map((item, index) => {
             return <CardItem button onPress={() => handleClickItem(item)}  key={index} style={styles.medRow}>
               <Text style={styles.rowTime}>{item.date}</Text>
               <View style={styles.rowName}>
